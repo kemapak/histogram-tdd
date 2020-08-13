@@ -1,6 +1,10 @@
 class Histogram {
+	static errorMessages = {
+		notValidString: 'Histogram must be initialized with an English alphabet a-z or A-Z based string.'
+	};
 
 	#text = '';
+
 	get text() {
 		return this.#text;
 	}
@@ -10,16 +14,12 @@ class Histogram {
 		['j', 0], ['k', 0], ['l', 0], ['m', 0], ['n', 0], ['o', 0], ['p', 0], ['q', 0], ['r', 0],
 		['s', 0], ['t', 0], ['u', 0], ['v', 0], ['w', 0], ['x', 0], ['y', 0], ['z', 0]
 	]);
+
 	get map() {
 		return this.#map;
 	}
 
-	static errorMessages = {
-		notValidString: 'Histogram must be initialized with an English alphabet a-z or A-Z based string.'
-	}
-
 	constructor(value) {
-
 		if ('string' !== typeof value) {
 			throw new Error(Histogram.errorMessages.notValidString);
 		}
@@ -34,17 +34,15 @@ class Histogram {
 		this.populateMap();
 	}
 
-	setLetterOccurrence(letter) {
-
+	getLetterOccurrence(letter) {
 		let regex = new RegExp(letter, 'gi');
 		let result = this.#text.match(regex);
 		return (null !== result) ? result.length : 0;
 	}
 
 	populateMap() {
-
 		this.#map.forEach((value, key) => {
-			this.#map.set(key, this.setLetterOccurrence(key));
+			this.#map.set(key, this.getLetterOccurrence(key));
 		});
 	}
 
@@ -52,8 +50,7 @@ class Histogram {
 		return Array.from(this.map);
 	}
 
-	formattedReport(s) {
-
+	formattedReport() {
 		let letterIndex = 0;
 		let valueIndex = 1;
 		let result = '';

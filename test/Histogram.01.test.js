@@ -1,16 +1,13 @@
 const Histogram = require('../src/Histogram.01.js');
 
 describe('Given a text input Histogram class ', () => {
-
     test('should be defined.', () => {
-
         let histogram = new Histogram('xyz');
 
         expect(histogram instanceof Histogram).toBeTruthy();
     });
 
     test('should throw an exception if not initiated with an English alphabetic string.', () => {
-
         expect(() => {new Histogram();}).toThrow(Histogram.errorMessages.notValidString);
         expect(() => {new Histogram('as34r');}).toThrow(Histogram.errorMessages.notValidString);
         expect(() => {new Histogram('ÖÜğış');}).toThrow(Histogram.errorMessages.notValidString);
@@ -18,16 +15,13 @@ describe('Given a text input Histogram class ', () => {
     });
 
     test('should return text field.', () => {
-
         let histogram = new Histogram('xyz');
 
         expect(histogram.text).toEqual('xyz');
     });
 
     test('should return map field.', () => {
-
         let histogram = new Histogram('bcaaxxyz');
-
         let stub = [
             {letter: 'a', value: 2}, {letter: 'b', value: 1}, {letter: 'c', value: 1}, {letter: 'd', value: 0},
             {letter: 'e', value: 0}, {letter: 'f', value: 0}, {letter: 'g', value: 0}, {letter: 'h', value: 0},
@@ -42,7 +36,6 @@ describe('Given a text input Histogram class ', () => {
     });
 
     test('should return correct number of letter occurrence.', () => {
-
         let histogram = new Histogram('aaxyz');
 
         expect(histogram.getLetterOccurrence('x')).toEqual(1);
@@ -51,9 +44,7 @@ describe('Given a text input Histogram class ', () => {
     });
 
     test('should return the correct number of letter occurrences in the map.', () => {
-
         let histogram = new Histogram('aaxyz');
-
         let stub = [
             {letter: 'a', value: 2}, {letter: 'b', value: 0}, {letter: 'c', value: 0}, {letter: 'd', value: 0},
             {letter: 'e', value: 0}, {letter: 'f', value: 0}, {letter: 'g', value: 0}, {letter: 'h', value: 0},
@@ -68,13 +59,10 @@ describe('Given a text input Histogram class ', () => {
     });
 
     test('should print histogram.', () => {
-
         let histogram = new Histogram('aaxyz');
-
         let stub = `a: 40%\nx: 20%\ny: 20%\nz: 20%\n`;
         console.log(stub);
 
         expect(histogram.formattedReport()).toEqual(stub);
     });
-
 });

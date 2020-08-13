@@ -1,78 +1,74 @@
-class Histogram01 {
+class Histogram {
 
-    #text = '';
-    get text(){
+	static errorMessages = {
+		notValidString: 'Histogram must be initialized with an English alphabet a-z or A-Z based string.'
+	};
 
-        return this.#text
-    }
+	#text = '';
 
-    #map = [
-        {letter: 'a', value: 0}, {letter: 'b', value: 0}, {letter: 'c', value: 0}, {letter: 'd', value: 0},
-        {letter: 'e', value: 0}, {letter: 'f', value: 0}, {letter: 'g', value: 0}, {letter: 'h', value: 0},
-        {letter: 'i', value: 0}, {letter: 'j', value: 0}, {letter: 'k', value: 0}, {letter: 'l', value: 0},
-        {letter: 'm', value: 0}, {letter: 'n', value: 0}, {letter: 'o', value: 0}, {letter: 'p', value: 0},
-        {letter: 'q', value: 0}, {letter: 'r', value: 0}, {letter: 's', value: 0}, {letter: 't', value: 0},
-        {letter: 'u', value: 0}, {letter: 'v', value: 0}, {letter: 'w', value: 0}, {letter: 'x', value: 0},
-        {letter: 'y', value: 0}, {letter: 'z', value: 0}
-    ];
-    get map(){
+	get text() {
+		return this.#text;
+	}
 
-        return this.#map;
-    }
+	#map = [
+		{letter: 'a', value: 0}, {letter: 'b', value: 0}, {letter: 'c', value: 0}, {letter: 'd', value: 0},
+		{letter: 'e', value: 0}, {letter: 'f', value: 0}, {letter: 'g', value: 0}, {letter: 'h', value: 0},
+		{letter: 'i', value: 0}, {letter: 'j', value: 0}, {letter: 'k', value: 0}, {letter: 'l', value: 0},
+		{letter: 'm', value: 0}, {letter: 'n', value: 0}, {letter: 'o', value: 0}, {letter: 'p', value: 0},
+		{letter: 'q', value: 0}, {letter: 'r', value: 0}, {letter: 's', value: 0}, {letter: 't', value: 0},
+		{letter: 'u', value: 0}, {letter: 'v', value: 0}, {letter: 'w', value: 0}, {letter: 'x', value: 0},
+		{letter: 'y', value: 0}, {letter: 'z', value: 0}
+	];
 
-    static errorMessages = {
+	get map() {
+		return this.#map;
+	}
 
-        notValidString: 'Histogram must be initialized with an English alphabetic string a-z or A-Z.'
-    }
+	constructor(value) {
+		if ('string' !== typeof value) {
+			throw new Error(Histogram.errorMessages.notValidString);
+		}
 
-    constructor(paramText) {
+		let regex = new RegExp(/[^a-z]/, 'gi');
 
-        if ('string' !== typeof paramText) {
-            throw new Error(Histogram01.errorMessages.notValidString);
-        }
+		if (null !== value.match(regex)) {
+			throw new Error(Histogram.errorMessages.notValidString);
+		}
 
-        let regex = new RegExp(/[^a-z]/, 'gi');
+		this.#text = value;
+		this.populateMap();
+	}
 
-        if (null !== paramText.match(regex)) {
-            throw new Error(Histogram01.errorMessages.notValidString);
-        }
+	getLetterOccurrence(letter) {
+		let regex = new RegExp(letter, 'gi');
+		let result = this.#text.match(regex);
+		return (null !== result) ? result.length : 0;
+	}
 
-        this.#text = paramText;
-        this.populateMap();
-    }
+	populateMap() {
+		for (let letterIndex = 0; letterIndex < 26; letterIndex++) {
+			this.#map[letterIndex].value = this.getLetterOccurrence(this.#map[letterIndex].letter);
+		}
+	}
 
-    getLetterOccurrence(letter) {
+	formattedReport() {
+		let result = '';
+		let percentage = 0;
 
-        let regex = new RegExp(letter, 'gi');
-        let result = this.#text.match(regex);
-        return (null !== result) ? result.length : 0;
-    }
+		for (let letterIndex = 0; letterIndex < 26; letterIndex++) {
 
-    populateMap() {
+			if (0 === this.#map[letterIndex].value) {
+				continue;
+			}
 
-        for (let letterIndex = 0; letterIndex < 26; letterIndex++) {
-            this.#map[letterIndex].value = this.getLetterOccurrence(this.#map[letterIndex].letter);
-        }
-    }
+			percentage = (this.#map[letterIndex].value / this.#text.length) * 100;
 
-    formattedReport() {
-        let result = '';
-        let percentage = 0;
+			result += this.#map[letterIndex].letter + ': ' + percentage + '%\n';
+		}
 
-        for (let letterIndex = 0; letterIndex < 26; letterIndex++) {
-
-            if (0 === this.#map[letterIndex].value) {
-                continue;
-            }
-
-            percentage = (this.#map[letterIndex].value / this.#text.length) * 100;
-
-            result += this.#map[letterIndex].letter + ': ' + percentage + '%\n';
-        }
-
-        return result;
-    }
+		return result;
+	}
 
 }
 
-module.exports = Histogram01;
+module.exports = Histogram;
